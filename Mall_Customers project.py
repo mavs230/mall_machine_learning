@@ -19,8 +19,6 @@ print(data.head())
 
 # Check for missing values
 missing_values = data.isnull().sum()
-
-# Display missing values count
 print("Missing values:\n", missing_values)
 
 # Display basic info about the dataset
@@ -31,24 +29,24 @@ print(data.info())
 print("\nSummary Statistic:")
 print(data.describe())
 
-# Display the first few rows of the dataset
-print("First Few Rows of the Dataset:")
-print(data.head())
-
 # Visualize distributions of numerical features
 sns.set(style="whitegrid")
 plt.figure(figsize=(15, 5))
+
+# Distribution of Age
 plt.subplot(1, 3, 1)
 sns.histplot(data['Age'], bins=20, kde=True, color='skyblue')
 plt.title('Distribution of Age')
 
+# Distribution of Annual Income
 plt.subplot(1, 3, 2)
 sns.histplot(data['Annual Income (k$)'], bins=20, kde=True, color='salmon')
 plt.title('Distribution of Annual Income')
 
+# Distribution of Spending Score
 plt.subplot(1, 3, 3)
 sns.histplot(data['Spending Score (1-100)'], bins=20, kde=True, color='green')
-plt.title('Distribution of spending Score')
+plt.title('Distribution of Spending Score')
 
 plt.tight_layout()
 plt.show()
@@ -69,7 +67,7 @@ scaled_features = scaler.fit_transform(numerical_features)
 k_values = [2, 3, 4, 5, 6]
 
 for k in k_values:
-    # Initialize Kmeans with with the current number of clusters
+    # Initialize Kmeans with the current number of clusters
     kmeans = KMeans(n_clusters=k, random_state=42)
     
     # Fit KMeans to the scaled features
@@ -84,6 +82,7 @@ print(data.head())
 
 # Define a function to visualize clusters
 def visualize_clusters(data, cluster_column, x_feature, y_feature):
+    """Visualize clusters on a scatter plot."""
     plt.figure(figsize=(8, 6))
     sns.scatterplot(data=data, x=x_feature, y=y_feature, hue=cluster_column, palette='viridis')
     plt.title('Visualization of Clusters')
@@ -101,6 +100,7 @@ for k in k_values:
 
 # Define a function to visualize cluster profiles
 def visualize_cluster_profiles(data, cluster_column, numerical_features):
+    """Visualize the mean values of numerical features for each cluster."""
     cluster_profiles = data.groupby(cluster_column)[numerical_features].mean()
     cluster_profiles.plot(kind='bar', figsize=(10, 6))
     plt.title('Cluster Profiles')
